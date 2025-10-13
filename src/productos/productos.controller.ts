@@ -18,7 +18,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
-  // 👁️ Cualquiera autenticado puede ver los productos
+  //Cualquiera autenticado puede ver los productos
   @Get()
   findAll() {
     return this.productosService.findAll();

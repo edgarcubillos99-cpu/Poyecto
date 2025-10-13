@@ -8,14 +8,21 @@ export class AuthController {
 
   //Registro de usuarios
   @Post('register')
-  register(@Body() body: { email: string; password: string; role: 'admin' | 'cliente' }) {
-    return this.authService.register(body.email, body.password);
+  async register(
+    @Body('email') email: string,
+    @Body('password') password: string,
+    @Body('role') role: 'admin' | 'cliente' = 'cliente',
+  ) {
+    return this.authService.register(email, password, role);
   }
 
   //Inicio de sesion
   @Post('login')
-  login(@Body() body: { email: string; password: string }) {
-    return this.authService.login(body.email, body.password);
+  async login(
+    @Body('email') email: string,
+    @Body('password') password: string,) 
+    {
+    return this.authService.login(email, password);
   }
 }
 
