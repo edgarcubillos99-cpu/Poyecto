@@ -5,6 +5,8 @@ import { RolesGuard } from './roles.guard';
 import { UseGuards, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { CreateUserDto } from './dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -16,23 +18,17 @@ export class AuthController {
   @ApiOperation({ summary: 'Registrar un nuevo usuario' })
   @ApiResponse({ status: 201, description: 'Usuario registrado exitosamente' })
   @ApiResponse({ status: 400, description: 'Datos inválidos' })
-  async register(
-    @Body('email') email: string,
-    @Body('password') password: string,
-    @Body('role') role: 'admin' | 'cliente' = 'cliente',
-  ) {
+  async register(@Body() createUserDto: CreateUserDto) {
+    const { email, password, role } = createUserDto;
     return this.authService.register(email, password, role);
   }
-
   //Inicio de sesion
   @Post('login')
   @ApiOperation({ summary: 'Iniciar sesión' })
   @ApiResponse({ status: 200, description: 'Inicio de sesión exitoso con JWT' })
   @ApiResponse({ status: 401, description: 'Credenciales inválidas' })
-  async login(
-    @Body('email') email: string,
-    @Body('password') password: string,) 
-    {
+  async login(@Body() loginDto: LoginDto) {
+    const { email, password } = loginDto;
     return this.authService.login(email, password);
   }
 }
